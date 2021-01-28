@@ -13,10 +13,10 @@
 ##SBATCH -t 8:00:00 #Maximum runtime of 48 hours
 
 # email notification
-##SBATCH --mail-user=cyinac@connect.ust.hk 
-##SBATCH --mail-type=begin
-##SBATCH --mail-type=end
-##SBATCH --mail-type=fail
+#SBATCH --mail-user=cyinac@connect.ust.hk 
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+#SBATCH --mail-type=fail
 ##SBATCH --mail-type=REQUEUE
 ##SBATCH --mail-type=ALL
 
