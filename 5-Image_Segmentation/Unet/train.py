@@ -30,11 +30,11 @@ def DataGenerator(file_path, batch_size):
                         zoom_range=0.05,
                         horizontal_flip=True,
                         fill_mode='nearest')
-    aug_dict = dict(horizontal_flip=True,
+    aug_dict_mask = dict(horizontal_flip=True,
                         fill_mode='nearest')
 
     image_datagen = ImageDataGenerator(**aug_dict)
-    mask_datagen = ImageDataGenerator(**aug_dict)
+    mask_datagen = ImageDataGenerator(**aug_dict_mask)
     image_generator = image_datagen.flow_from_directory(
         file_path,
         classes=["images"],
@@ -59,12 +59,14 @@ def DataGenerator(file_path, batch_size):
         mask[mask <= 0.5] = 0
         yield (img,mask)
 
+DATASET_PATH="/home/cyinac/dataset/Membrane"
+
 model = Unet(1, image_size=256)
-trainset = DataGenerator("membrane/train", batch_size=2)
+trainset = DataGenerator(os.path.join(DATASET_PATH,'train'), batch_size=2)
 model.fit_generator(trainset,steps_per_epoch=5000,epochs=5)
 model.save_weights("model.h5")
 
-testSet = DataGenerator("membrane/test", batch_size=1)
+testSet = DataGenerator(os.path.join(DATASET_PATH,'test'), batch_size=1)
 alpha   = 0.3
 model.load_weights("model.h5")
 if not os.path.exists("./results"): os.mkdir("./results")
